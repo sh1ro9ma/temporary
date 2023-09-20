@@ -2,4 +2,7 @@
 # Git post-merge フック
 
 # バッチファイルを実行
-./path/to/your-batch-file.bat
+./cpHookScript.bat
+
+
+echo "TEST"
