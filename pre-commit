@@ -46,6 +46,9 @@ else
   exit 1  # コミットを中止
 fi
 
+# 必ず中断する
+exit 1
+
 #
 # An example hook script to verify what is about to be committed.
 # Called by "git commit" with no arguments.  The hook should
