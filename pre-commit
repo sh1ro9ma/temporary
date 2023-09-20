@@ -1,81 +1,50 @@
 #!/bin/sh
-#!/bin/sh
 # Gitプリコミットフック
-
 
 # コミットしたユーザーの名前を取得
 commit_user_name=$(git log -1 --format='%an')
+chk_name="testUser"
+
+# 条件をチェック
+if [ "$commit_user_name" == "$chk_name" ]; then
+  echo "name 一致しました"
+  echo "chk_name: $chk_name"
+  echo "Committing user name: $commit_user_name"
+else
+  echo "条件を満たしていません。"
+  echo "chk_name: $chk_name"
+  echo "Committing user name: $commit_user_name"
+  exit 1  # コミットを中止
+fi
 
 # 現在のブランチ名を取得
 current_branch=$(git symbolic-ref --short HEAD)
+chk_branch="Develop"
+
+# 条件をチェック
+if [ "$current_branch" == "$chk_branch" ]; then
+  echo "branch 一致しました"
+  echo "chk_branch: $chk_branch"
+  echo "Current branch: $current_branch"
+else
+  echo "条件を満たしていません。"
+  echo "chk_branch: $chk_branch"
+  echo "Current branch: $current_branch"
+  exit 1  # コミットを中止
+fi
 
 # ステージされたファイルのリストを取得
 staged_files=$(git diff --cached --name-only)
+chk_files="^src/"
 
-# 条件をチェック
-if [[ "$commit_user_name" == "testUser" && "$current_branch" == "Develop" ]]; then
-  # ステージされたファイルに"src"ディレクトリが含まれているか確認
-  if echo "$staged_files" | grep -q "^src/"; then
-    echo "条件を満たしています。"
-  else
-    echo "条件を満たしていません。"
-    exit 1  # コミットを中止
-  fi
+# ステージされたファイルに"src"ディレクトリが含まれているか確認
+if echo "$staged_files" | grep -q "$chk_files"; then
+  echo "条件を満たしています。"
+  echo "$staged_files"
 else
   echo "条件を満たしていません。"
   exit 1  # コミットを中止
 fi
-
-# コミットしたユーザーの名前を取得
-commit_user_name=$(git log -1 --format='%an')
-
-# コミットしたユーザーのメールアドレスを取得
-commit_user_email=$(git log -1 --format='%ae')
-
-# コミットしたユーザーの名前とメールアドレスを表示
-echo "Committing user name: $commit_user_name"
-echo "Committing user email: $commit_user_email"
-
-# ステージされたファイルのリストを取得
-staged_files=$(git diff --cached --name-only)
-
-# フォルダパスを取得
-for file in $staged_files
-do
-  # ファイルのディレクトリパスを抽出
-  dir_path=$(dirname "$file")
-  
-  # デコードしたディレクトリパスを表示
-  echo "File path: $dir_path"
-done
-
-# リポジトリのルートパスを取得
-repo_root=$(git rev-parse --show-toplevel)
-
-echo "Repository root: $repo_root"
-
-# 現在のブランチ名を取得
-current_branch=$(git symbolic-ref --short HEAD)
-
-
-
-# ブランチ名からブランチの種別を判定
-if [[ "$current_branch" == "main" ]]; then
-  branch_type="Main Branch"
-elif [[ "$current_branch" == "master" ]]; then
-  branch_type="Master Branch"
-elif [[ "$current_branch" == feature/* ]]; then
-  branch_type="Feature Branch"
-elif [[ "$current_branch" == release/* ]]; then
-  branch_type="Release Branch"
-else
-  branch_type="Other Branch"
-fi
-
-echo "Current branch: $current_branch"
-echo "Branch type: $branch_type"
-
-
 
 #
 # An example hook script to verify what is about to be committed.
