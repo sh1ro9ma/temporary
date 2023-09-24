@@ -2,6 +2,46 @@
 # Gitプリコミットフック
 
 # コミットしたユーザーの名前を取得
+commit_user_name=$(git config --local user.name)
+echo commit user: $commit_user_name
+
+# 不許可ユーザによるコミットとして初期化
+no_entry=1
+
+# ユーザ名による検索を行う
+while read line
+do
+    # コメント行削除
+    line=${line%%#*}
+
+    # 空白文字削除
+    line=$(echo $line | sed -e 's/ *$//')
+
+    # 空白行削除
+    if [ -z "$line" ]; then
+        continue
+    fi
+
+    # ファイル内に含まれるユーザならチェック終了
+    if [ "$commit_user_name" = "$line" ]; then
+        # The user can push to the branch.
+        no_entry=0
+        break
+    fi
+done < "shareHookScript/authorized_users"
+
+if [ $no_entry = 1 ]; then
+    echo 許可されていないユーザによるコミットです
+    exit 1
+else
+    echo 許可ユーザによるコミットです
+fi
+
+exit 1
+
+
+
+# コミットしたユーザーの名前を取得
 commit_user_name=$(git log -1 --format='%an')
 chk_name="testUser"
 
