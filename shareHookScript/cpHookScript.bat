@@ -3,7 +3,7 @@ REM ファイルをコピーするバッチファイル
 chcp 65001
 
 REM コピー元ファイルのパス
-set src_folder=lochooks\
+set src_folder=shareHookScript\
 set file_name=post-merge
 set src_path=%src_folder%%file_name%
 
