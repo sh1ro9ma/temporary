@@ -37,9 +37,42 @@ else
     echo 許可ユーザによるコミットです
 fi
 
+# ステージされたファイルのリストを取得
+staged_files=$(git diff --cached --name-only)
+echo $staged_files
+# 不許可パスへのコミットとして初期化
+no_entry_path=0
+
+# ユーザ名による検索を行う
+while read line
+do
+    # コメント行削除
+    line=${line%%#*}
+
+    # 空白文字削除
+    line=$(echo $line | sed -e 's/ *$//')
+
+    # 空白行削除
+    if [ -z "$line" ]; then
+        continue
+    fi
+    echo $line
+    # ファイル内に含まれるパスならチェック終了
+    if echo "$staged_files" | grep -q "$line"; then
+      no_entry_path=1
+      break
+    fi
+done < "shareHookScript/protect_paths"
+
+if [ $no_entry_path = 1 ]; then
+    echo 許可されていないパスへのコミットです
+    echo $line
+    exit 1
+else
+    echo 許可されたパスへのコミットです
+fi
+
 exit 1
-
-
 
 # コミットしたユーザーの名前を取得
 commit_user_name=$(git log -1 --format='%an')

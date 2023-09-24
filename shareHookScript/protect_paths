@@ -1,0 +1,7 @@
+# Protected Paths
+test/path
+shareHookScript/
+path/to/protect1/
+path/to/protect2/
+path/to/protect3/
+path/to/protect4/
