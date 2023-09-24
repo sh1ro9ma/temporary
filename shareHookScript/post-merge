@@ -5,4 +5,4 @@
 ./shareHookScript/cpHookScript.bat &
 
 # 動作確認用出力
-echo "TEST2"
+echo "TEST3"
