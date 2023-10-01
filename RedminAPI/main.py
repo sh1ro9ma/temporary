@@ -143,7 +143,16 @@ def main():
     # showIssueList(issues)
 
     # newIssue1(redmine, prj_name)
-    newIssue2(redmine, prj_name)
+    # newIssue2(redmine, prj_name)
+
+    # get して オプション代入してsaveでもいい
+    # https://python-redmine.com/resources/issue.html#update-methods
+    redmine.issue.update(
+        1,  # issueのid指定
+        description='foo',       # 説明欄も置き換わる。更新履歴も一応は残って差分を確認できる。
+        notes='A journal note',  # チケット下部に表示されるコメント欄と思ってよさそう
+        done_ratio=60,
+    )
 
 
 if __name__ == "__main__":
