@@ -56,7 +56,7 @@ def newIssue2(redmine_r, prj_r):
 def showAttr(issue_r, mean_r, attrN_r):
     if hasattr(issue_r, attrN_r):
         info = getattr(issue_r, attrN_r)
-        print(f"{attrN_r}:{info}")
+        print(f"{mean_r}\t{attrN_r}\t{info}")
     else:
         pass
         # info = None
@@ -64,50 +64,50 @@ def showAttr(issue_r, mean_r, attrN_r):
 
 # https://qiita.com/flcn-x/items/89e8f709277c9fbf6275#%E3%83%81%E3%82%B1%E3%83%83%E3%83%88%E6%83%85%E5%A0%B1%E3%81%AE%E5%8F%96%E5%BE%97
 def infoIssue(issue_r):
-    showAttr(issue_r, "id")                         # チケットID
-    showAttr(issue_r, "url")                        # チケットURL
-    showAttr(issue_r, "tracker.id")                 # トラッカーID
-    showAttr(issue_r, "tracker.name")               # トラッカー
-    showAttr(issue_r, "subject")                    # 題名
-    showAttr(issue_r, "description")                # 説明
-    showAttr(issue_r, "status.id")                  # ステータスID
-    showAttr(issue_r, "status.name")                # ステータス
-    showAttr(issue_r, "priority.id")                # 優先度ID
-    showAttr(issue_r, "priority.name")              # 優先度
-    showAttr(issue_r, "assigned_to.id")             # 担当者ID
-    showAttr(issue_r, "assigned_to.name")           # 担当者名
-    showAttr(issue_r, "parent")                     # 親チケットID
-    showAttr(issue_r, "start_date")                 # 開始日
-    showAttr(issue_r, "due_date")                   # 期日
-    showAttr(issue_r, "estimated_hours")            # 予定工数
-    showAttr(issue_r, "project.id")                 # プロジェクトID
-    showAttr(issue_r, "project.name")               # プロジェクト
-    showAttr(issue_r, "author.id")                  # 作成者ID
-    showAttr(issue_r, "author.name")                # 作成者名
-    showAttr(issue_r, "done_ratio")                 # 進捗率
-    showAttr(issue_r, "created_on")                 # 作成日
-    showAttr(issue_r, "updated_on")                 # 更新日
-    showAttr(issue_r, "spent_hours")                # 作業時間
+    showAttr(issue_r, "チケットID",     "id")
+    showAttr(issue_r, "チケットURL",    "url")
+    showAttr(issue_r, "トラッカーID",   "tracker.id")
+    showAttr(issue_r, "トラッカー",     "tracker.name")
+    showAttr(issue_r, "題名",           "subject")
+    showAttr(issue_r, "説明",           "description")
+    showAttr(issue_r, "ステータスID",   "status.id")
+    showAttr(issue_r, "ステータス",     "status.name")
+    showAttr(issue_r, "優先度ID",       "priority.id")
+    showAttr(issue_r, "優先度",         "priority.name")
+    showAttr(issue_r, "担当者ID",       "assigned_to.id")
+    showAttr(issue_r, "担当者名",       "assigned_to.name")
+    showAttr(issue_r, "親チケットID",   "parent")
+    showAttr(issue_r, "開始日",         "start_date")
+    showAttr(issue_r, "期日",           "due_date")
+    showAttr(issue_r, "予定工数",       "estimated_hours")
+    showAttr(issue_r, "プロジェクトID", "project.id")
+    showAttr(issue_r, "プロジェクト",   "project.name")
+    showAttr(issue_r, "作成者ID",       "author.id")
+    showAttr(issue_r, "作成者名",       "author.name")
+    showAttr(issue_r, "進捗率",         "done_ratio")
+    showAttr(issue_r, "作成日",         "created_on")
+    showAttr(issue_r, "更新日",         "updated_on")
+    showAttr(issue_r, "作業時間",       "spent_hours")
 
-    showAttr(issue_r, "watchers.id")                # ウォッチャー ウォッチャーID
-    showAttr(issue_r, "watchers.name")              # ウォッチャー ウォッチャー名
-    showAttr(issue_r, "custom_fields.id")           # カスタム領域 カスタムID
-    showAttr(issue_r, "custom_fields.name")         # カスタム領域 カスタム名
-    showAttr(issue_r, "custom_fields.value")        # カスタム領域 カスタム値
-    showAttr(issue_r, "attachments.id")             # 送付ファイル ファイルID
-    showAttr(issue_r, "attachments.filename")       # 送付ファイル ファイル名
-    showAttr(issue_r, "attachments.description")    # 送付ファイル ファイル説明
-    showAttr(issue_r, "attachments.filesize")       # 送付ファイル ファイルサイズ
-    showAttr(issue_r, "attachments.author")         # 送付ファイル ファイル著者
-    showAttr(issue_r, "attachments.content_url")    # 送付ファイル ファイルURL
-    showAttr(issue_r, "attachments.created_on")     # 送付ファイル ファイル作成日
-    showAttr(issue_r, "changesets")                 # コミットログ
-    showAttr(issue_r, "children.id")                # 子チケット 子チケットID
-    showAttr(issue_r, "children.subject")           # 子チケット 子チケットタイトル
-    showAttr(issue_r, "relations.id")               # 関連するチケット 関連ID
-    showAttr(issue_r, "relations.issue_id")         # 関連するチケット 関連する自分のID
-    showAttr(issue_r, "relations.issue_to_id")      # 関連するチケット 関連する相手のID
-    showAttr(issue_r, "relations.relation_type")    # 関連するチケット 関連のタイプ
+    showAttr(issue_r, "ウォッチャー ウォッチャーID",       "watchers.id")
+    showAttr(issue_r, "ウォッチャー ウォッチャー名",       "watchers.name")
+    showAttr(issue_r, "カスタム領域 カスタムID",           "custom_fields.id")
+    showAttr(issue_r, "カスタム領域 カスタム名",           "custom_fields.name")
+    showAttr(issue_r, "カスタム領域 カスタム値",           "custom_fields.value")
+    showAttr(issue_r, "送付ファイル ファイルID",           "attachments.id")
+    showAttr(issue_r, "送付ファイル ファイル名",           "attachments.filename")
+    showAttr(issue_r, "送付ファイル ファイル説明",         "attachments.description")
+    showAttr(issue_r, "送付ファイル ファイルサイズ",       "attachments.filesize")
+    showAttr(issue_r, "送付ファイル ファイル著者",         "attachments.author")
+    showAttr(issue_r, "送付ファイル ファイルURL",          "attachments.content_url")
+    showAttr(issue_r, "送付ファイル ファイル作成日",       "attachments.created_on")
+    showAttr(issue_r, "コミットログ ",                     "changesets")
+    showAttr(issue_r, "子チケット 子チケットID",           "children.id")
+    showAttr(issue_r, "子チケット 子チケットタイトル",     "children.subject")
+    showAttr(issue_r, "関連するチケット 関連ID",           "relations.id")
+    showAttr(issue_r, "関連するチケット 関連する自分のID", "relations.issue_id")
+    showAttr(issue_r, "関連するチケット 関連する相手のID", "relations.issue_to_id")
+    showAttr(issue_r, "関連するチケット 関連のタイプ",     "relations.relation_type")
 
 
 def showIssueList(issueLst_r):
