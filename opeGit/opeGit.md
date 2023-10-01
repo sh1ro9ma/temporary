@@ -1,4 +1,13 @@
 
+## 環境準備
+
+### 定番の用意
+
+いつもの
+
+    pipenv --python 3.9
+    pipenv install --skip-lock flake8
+
 ### GitPython
 
     pipenv install --skip-lock GitPython
@@ -40,3 +49,18 @@
     Location: d:\work\redmine\.venv\lib\site-packages
     Requires:
     Required-by: gitdb
+
+## 参考サイト
+
+https://qiita.com/kanedaq/items/1f7e294b147a348fbe7e
+
+## 認証情報の管理
+
+Winキー
+"Env" 入力
+変数名： PY_USERNAME_TEST
+変数値： py-test-name
+
+    import os
+    username = os.environ.get('MY_USERNAME')
+    password = os.environ.get('MY_PASSWORD')
