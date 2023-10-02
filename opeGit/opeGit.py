@@ -3,8 +3,10 @@ import git
 
 import time
 
-FILE_NAME = "あすきー.txt"
-FOLDER_PATH = r"D:\work\gitTest"
+username = os.environ.get('PY_USERNAME_TEST')
+
+FILE_NAME = "opeGit\\testText.txt"
+FOLDER_PATH = r"D:\work\gitPushTest\temporary"
 FILE_PATH = FOLDER_PATH + "\\" + FILE_NAME
 
 TGT_ALL = "."
