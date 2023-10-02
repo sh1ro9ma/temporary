@@ -24,8 +24,5 @@ repo_directory = r"D:\work\gitPushTest\temporary"
 command = "git pull"
 run_cmd_command(command, repo_directory)
 
-# # 最新の変更を取得（git pull）
-# subprocess.run(["git", "pull"], cwd=repo_directory, )
-
 # # プッシュを実行
 # subprocess.run(["git", "push", "origin", branch_name], cwd=repo_directory, check=True)
