@@ -20,6 +20,7 @@ branch_name = "master"
 # Gitリポジトリのディレクトリパス
 repo_directory = r"D:\work\gitPushTest\temporary"
 
+# PUllの実行
 command = "git pull"
 run_cmd_command(command, repo_directory)
 
