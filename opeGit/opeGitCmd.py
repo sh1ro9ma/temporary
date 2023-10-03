@@ -20,9 +20,18 @@ branch_name = "master"
 # Gitリポジトリのディレクトリパス
 repo_directory = r"D:\work\gitPushTest\temporary"
 
-# PUllの実行
+# 最新取得
 command = "git pull"
 run_cmd_command(command, repo_directory)
 
-# # プッシュを実行
-# subprocess.run(["git", "push", "origin", branch_name], cwd=repo_directory, check=True)
+# ステージング
+command = "git add ."
+run_cmd_command(command, repo_directory)
+
+# コミット
+command = "git commit -m commit by script"
+run_cmd_command(command, repo_directory)
+
+# # プッシュ
+# command = "git push master"
+# run_cmd_command(command, repo_directory)
