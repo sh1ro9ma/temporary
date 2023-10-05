@@ -110,12 +110,67 @@ def infoIssue(issue_r):
     showAttr(issue_r, "関連するチケット 関連のタイプ",     "relations.relation_type")
 
 
+def infoIssue2(issue_r):
+    showAttr(issue_r, "チケットID",       "id")
+    showAttr(issue_r, "チケットURL",      "url")
+    showAttr(issue_r, "トラッカー",       "tracker")
+    showAttr(issue_r, "題名",             "subject")
+    showAttr(issue_r, "説明",             "description")
+    showAttr(issue_r, "ステータス",       "status")
+    showAttr(issue_r, "優先度",           "priority")
+    showAttr(issue_r, "担当者",           "assigned_to")
+    showAttr(issue_r, "親チケットID",     "parent")
+    showAttr(issue_r, "開始日",           "start_date")
+    showAttr(issue_r, "期日",             "due_date")
+    showAttr(issue_r, "予定工数",         "estimated_hours")
+    showAttr(issue_r, "プロジェクト",     "project")
+    showAttr(issue_r, "作成者",           "author")
+    showAttr(issue_r, "進捗率",           "done_ratio")
+    showAttr(issue_r, "作成日",           "created_on")
+    showAttr(issue_r, "更新日",           "updated_on")
+    showAttr(issue_r, "作業時間",         "spent_hours")
+    showAttr(issue_r, "ウォッチャー",     "watchers")
+    showAttr(issue_r, "カスタム領域",     "custom_fields")
+    showAttr(issue_r, "送付ファイル",     "attachments")
+    showAttr(issue_r, "コミットログ ",    "changesets")
+    showAttr(issue_r, "子チケット",       "children")
+    showAttr(issue_r, "関連するチケット", "relations")
+
+
 def showIssueList(issueLst_r):
     print("issue list")
     for cnt, iss in enumerate(list(issueLst_r)):
         print(f"iss:{cnt:03}")
-        infoIssue(iss)
+        infoIssue2(iss)
         print("")
+
+def test():
+    # https://srbrnote.work/archives/4946
+    import inspect
+    tgtObj = list(issues)[0].watchers
+    print(tgtObj)
+    print("1--------------------------------------------")
+    print(type(tgtObj))
+    print("2--------------------------------------------")
+    print(dir(tgtObj))
+    print("3--------------------------------------------")
+    print(inspect.getmembers(tgtObj))
+    print("4--------------------------------------------")
+    attrs = inspect.getmembers(tgtObj)
+    attrLst = [x for x in attrs if not callable(x[1])]
+    print(attrLst)
+    print(attrs)
+    print("5--------------------------------------------")
+    print(vars(tgtObj))  # dictオブジェクトの存在確認して実施すればいい
+    print("6--------------------------------------------")
+    dicti = vars(tgtObj)
+    for dic in dicti:
+        print(dic, type(dic))
+    print("7--------------------------------------------")
+    print(dicti["_resources"])
+    print("8--------------------------------------------")
+    for di in dicti["_resources"]:
+        print(di)
 
 
 def main():
