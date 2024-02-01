@@ -1,0 +1,51 @@
+Sub ExportPageCountsToCSV()
+    Dim folderPath As String
+    Dim fileDialog As fileDialog
+    Dim selectedFile As Variant
+    Dim wb As Workbook
+    Dim ws As Worksheet
+    Dim pageCount As Integer
+    Dim csvData As String
+    
+    ' フォルダの選択ダイアログを表示
+    Set fileDialog = Application.fileDialog(msoFileDialogFolderPicker)
+    fileDialog.Title = "Excelファイルが格納されているフォルダを選択してください"
+    
+    If fileDialog.Show = -1 Then
+        folderPath = fileDialog.SelectedItems(1) & "\"
+    Else
+        MsgBox "フォルダが選択されませんでした。", vbExclamation
+        Exit Sub
+    End If
+    
+    ' フォルダ内のExcelファイルに対して処理を行う
+    selectedFile = Dir(folderPath & "*.xls*")
+    
+    Do While selectedFile <> ""
+        ' Excelファイルを開く
+        Set wb = Workbooks.Open(folderPath & selectedFile)
+        
+        ' 各シートごとにページ数を取得
+        For Each ws In wb.Sheets
+            pageCount = ws.HPageBreaks.Count + 1
+            ' CSV形式でデータを構築
+            csvData = csvData & selectedFile & ", " & ws.Name & ", " & pageCount & vbCrLf
+        Next ws
+        
+        ' ファイルを閉じる
+        wb.Close False
+        
+        ' 次のファイルを取得
+        selectedFile = Dir
+    Loop
+    
+    ' CSVデータをファイルに書き込む
+    Dim outputFilePath As String
+    outputFilePath = folderPath & "PageCountsOutput.csv"
+    Open outputFilePath For Output As #1
+    Print #1, "Excelファイル名, シート名, ページ数"
+    Print #1, csvData
+    Close #1
+    
+    MsgBox "CSVファイルが作成されました。", vbInformation
+End Sub
