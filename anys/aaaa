@@ -1,0 +1,198 @@
+# GTest
+
+## 環境用意
+
+git clone https://github.com/google/googletest.git -b "v1.14.0"
+
+Mingwは以下からダウンロード
+https://github.com/niXman/mingw-builds-binaries/releases
+過去に用意したものが以下に配置されていたので流用する
+C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
+C:\Program Files\mingw-w64\x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev1\mingw64\bin
+環境変数Pathが通してあることも確認
+
+CMakeは以下からダウンロード
+https://cmake.org/download/
+
+CMake有効にしてから選択肢を選ぶだけでビルドできてしまった。
+
+以下参考にするのがいいかも？
+https://google.github.io/googletest/quickstart-cmake.html
+
+作成したのは以下 V01.14.0
+
+    cmake_minimum_required(VERSION 3.14)
+    project(my_project)
+
+    # GoogleTest requires at least C++14
+    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+    include(FetchContent)
+    FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG        f8d7d77c06936315286eb55f8de22cd23c188571
+    )
+    # For Windows: Prevent overriding the parent project's compiler/linker settings
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+
+
+同ファイルに以下追記した
+
+    enable_testing()
+
+    add_executable(
+    hello_test
+    hello_test.cc
+    )
+    target_link_libraries(
+    hello_test
+    GTest::gtest_main
+    )
+
+    include(GoogleTest)
+    gtest_discover_tests(hello_test)
+
+
+以下3コマンド実行した結果
+
+    D:\work\16gTest\cm>cmake -S . -B build
+    -- Building for: Visual Studio 17 2022
+    -- Selecting Windows SDK version 10.0.19041.0 to target Windows 10.0.22631.
+    -- The C compiler identification is MSVC 19.33.31629.0
+    -- The CXX compiler identification is MSVC 19.33.31629.0
+    -- Detecting C compiler ABI info
+    -- Detecting C compiler ABI info - done
+    -- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/cl.exe - skipped
+    -- Detecting C compile features
+    -- Detecting C compile features - done
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/bin/Hostx64/x64/cl.exe - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Found Python3: C:/Users/seigy/AppData/Local/Programs/Python/Python311/python.exe (found version "3.11.3") found components: Interpreter
+    -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+    -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+    -- Looking for pthread_create in pthreads
+    -- Looking for pthread_create in pthreads - not found
+    -- Looking for pthread_create in pthread
+    -- Looking for pthread_create in pthread - not found
+    -- Found Threads: TRUE
+    -- Configuring done (9.7s)
+    -- Generating done (0.1s)
+    -- Build files have been written to: D:/work/16gTest/cm/build
+
+
+    D:\work\16gTest\cm>cmake --build build
+    MSBuild version 17.3.1+2badb37d1 for .NET Framework
+    1>Checking Build System
+    Building Custom Rule D:/work/16gTest/cm/build/_deps/googletest-src/googlemock/CMakeLists.txt
+    gtest-all.cc
+    gmock-all.cc
+    コードを生成中...
+    gmock.vcxproj -> D:\work\16gTest\cm\build\lib\Debug\gmock.lib
+    Building Custom Rule D:/work/16gTest/cm/build/_deps/googletest-src/googlemock/CMakeLists.txt
+    gtest-all.cc
+    gmock-all.cc
+    gmock_main.cc
+    コードを生成中...
+    gmock_main.vcxproj -> D:\work\16gTest\cm\build\lib\Debug\gmock_main.lib
+    Building Custom Rule D:/work/16gTest/cm/build/_deps/googletest-src/googletest/CMakeLists.txt
+    gtest-all.cc
+    gtest.vcxproj -> D:\work\16gTest\cm\build\lib\Debug\gtest.lib
+    Building Custom Rule D:/work/16gTest/cm/build/_deps/googletest-src/googletest/CMakeLists.txt
+    gtest_main.cc
+    gtest_main.vcxproj -> D:\work\16gTest\cm\build\lib\Debug\gtest_main.lib
+    Building Custom Rule D:/work/16gTest/cm/CMakeLists.txt
+    hello_test.cc
+    hello_test.vcxproj -> D:\work\16gTest\cm\build\Debug\hello_test.exe
+    Building Custom Rule D:/work/16gTest/cm/CMakeLists.txt
+
+
+    D:\work\16gTest\cm>cd build && ctest
+    Test project D:/work/16gTest/cm/build
+        Start 1: HelloTest.BasicAssertions
+    1/1 Test #1: HelloTest.BasicAssertions ........   Passed    0.01 sec
+
+    100% tests passed, 0 tests failed out of 1
+
+    Total Test time (real) =   0.02 sec
+
+    D:\work\16gTest\cm\build>
+
+
+https://qiita.com/piacerex/items/840a2679f8c4382c453a
+
+https://visualstudio.microsoft.com/ja/vs/older-downloads/#visual-studio-2019-and-other-products
+https://visualstudio.microsoft.com/ja/downloads/
+
+
+https://ninja-build.org/
+https://github.com/ninja-build/ninja/releases
+
+https://qiita.com/shohirose/items/30e39949d8bf990b0462
+
+たぶんNinjaをダウンロードしてパス通すのがいい
+作成したCMakeLists.txtと同じディレクトリへ移動して以下実行
+
+cmake . -G Ninja
+
+    PS D:\work\16gTest> cd cm
+    PS D:\work\16gTest\cm> cmake . -G Ninja
+    -- The C compiler identification is GNU 13.2.0
+    -- The CXX compiler identification is GNU 13.2.0
+    -- Detecting C compiler ABI info
+    -- Detecting C compiler ABI info - done
+    -- Check for working C compiler: C:/Program Files/mingw-w64/x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev1/mingw64/bin/gcc.exe - skipped
+    -- Detecting C compile features
+    -- Detecting C compile features - done
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: C:/Program Files/mingw-w64/x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev1/mingw64/bin/c++.exe - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Found Python3: C:/Users/seigy/AppData/Local/Programs/Python/Python311/python.exe (found version "3.11.3") found components: Interpreter
+    -- Configuring done (6.5s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: D:/work/16gTest/cm
+    PS D:\work\16gTest\cm>
+
+hello_world.cc作成後以下を実行
+
+cmake -S . -B build -G Ninja
+
+cd build && ctest
+
+    PS D:\work\16gTest> cd ./cm 
+    PS D:\work\16gTest\cm> cmake -S . -B build -G Ninja
+    -- The C compiler identification is GNU 13.2.0
+    -- The CXX compiler identification is GNU 13.2.0
+    -- Detecting C compiler ABI info
+    -- Detecting C compiler ABI info - done
+    -- Check for working C compiler: C:/Program Files/mingw-w64/x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev1/mingw64/bin/gcc.exe - skipped
+    -- Detecting C compile features
+    -- Detecting C compile features - done
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: C:/Program Files/mingw-w64/x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev1/mingw64/bin/c++.exe - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Found Python3: C:/Users/seigy/AppData/Local/Programs/Python/Python311/python.exe (found version "3.11.3") found components: Interpreter
+    -- Configuring done (7.6s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: D:/work/16gTest/cm/build
+    PS D:\work\16gTest\cm> cmake --build build 
+    [10/10] Linking CXX executable hello_test.exe
+    PS D:\work\16gTest\cm> cd build && ctest
+    >>
+    Test project D:/work/16gTest/cm/build
+        Start 1: HelloTest.BasicAssertions
+    1/1 Test #1: HelloTest.BasicAssertions ........   Passed    0.01 sec
+
+    100% tests passed, 0 tests failed out of 1
+
+    Total Test time (real) =   0.02 sec
+    PS D:\work\16gTest\cm\build>
