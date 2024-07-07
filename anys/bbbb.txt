@@ -62,3 +62,214 @@
 コマンド完了後、以下実行する
 
     cd build && ctest
+
+### 再実行
+
+リビルド無しの再実行は以下でいい
+
+    cd build && ctest
+
+.ccの中身だけ更新して再試験するなら、親ディレクトリでbuild実施してctestする。
+
+    cmake --build build
+    cd build && ctest
+
+以下実行すれば失敗のログも終える。
+
+    ctest --rerun-failed --output-on-failure
+
+
+### 実行時ログ
+
+以下は一通りの実行ログ
+
+    Microsoft Windows [Version 10.0.22631.3737]
+    (c) Microsoft Corporation. All rights reserved.
+
+    C:\Users\seigy\Desktop\reGTes>cmake -S . -B build -G Ninja
+    -- The C compiler identification is GNU 13.2.0
+    -- The CXX compiler identification is GNU 13.2.0
+    -- Detecting C compiler ABI info
+    -- Detecting C compiler ABI info - done
+    -- Check for working C compiler: C:/Program Files/mingw-w64/x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev1/mingw64/bin/gcc.exe - skipped
+    -- Detecting C compile features
+    -- Detecting C compile features - done
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: C:/Program Files/mingw-w64/x86_64-13.2.0-release-posix-seh-msvcrt-rt_v11-rev1/mingw64/bin/c++.exe - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Found Python3: C:/Users/seigy/AppData/Local/Programs/Python/Python311/python.exe (found version "3.11.3") found components: Interpreter
+    -- Configuring done (6.2s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: C:/Users/seigy/Desktop/reGTes/build
+
+    C:\Users\seigy\Desktop\reGTes>cmake --build build
+    [0/1] Re-running CMake...-- Configuring done (0.8s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: C:/Users/seigy/Desktop/reGTes/build
+
+    [10/11] Linking CXX executable hello_test.exe
+
+    C:\Users\seigy\Desktop\reGTes>cd build && ctest
+    Test project C:/Users/seigy/Desktop/reGTes/build
+        Start 1: HelloTest.BasicAssertions
+    1/1 Test #1: HelloTest.BasicAssertions ........   Passed    0.01 sec
+
+    100% tests passed, 0 tests failed out of 1
+
+    Total Test time (real) =   0.02 sec
+
+    C:\Users\seigy\Desktop\reGTes\build>ctest
+    Test project C:/Users/seigy/Desktop/reGTes/build
+        Start 1: HelloTest.BasicAssertions
+    1/1 Test #1: HelloTest.BasicAssertions ........   Passed    0.01 sec
+
+    100% tests passed, 0 tests failed out of 1
+
+    Total Test time (real) =   0.02 sec
+
+    C:\Users\seigy\Desktop\reGTes\build>
+    C:\Users\seigy\Desktop\reGTes\build>ctest
+    Test project C:/Users/seigy/Desktop/reGTes/build
+        Start 1: HelloTest.BasicAssertions
+    1/1 Test #1: HelloTest.BasicAssertions ........   Passed    0.01 sec
+
+    100% tests passed, 0 tests failed out of 1
+
+    Total Test time (real) =   0.02 sec
+
+    C:\Users\seigy\Desktop\reGTes\build>cd ../
+
+    C:\Users\seigy\Desktop\reGTes>cmake --build build
+    [2/2] Linking CXX executable hello_test.exe
+
+    C:\Users\seigy\Desktop\reGTes>cd build && ctest
+    Test project C:/Users/seigy/Desktop/reGTes/build
+        Start 1: HelloTest.BasicAssertions
+    1/1 Test #1: HelloTest.BasicAssertions ........***Failed    0.01 sec
+
+    0% tests passed, 1 tests failed out of 1
+
+    Total Test time (real) =   0.02 sec
+
+    The following tests FAILED:
+            1 - HelloTest.BasicAssertions (Failed)
+    Errors while running CTest
+    Output from these tests are in: C:/Users/seigy/Desktop/reGTes/build/Testing/Temporary/LastTest.log
+    Use "--rerun-failed --output-on-failure" to re-run the failed cases verbosely.
+
+    C:\Users\seigy\Desktop\reGTes\build>ctest --rerun-failed --output-on-failure
+    Test project C:/Users/seigy/Desktop/reGTes/build
+        Start 1: HelloTest.BasicAssertions
+    1/1 Test #1: HelloTest.BasicAssertions ........***Failed    0.01 sec
+    Running main() from C:/Users/seigy/Desktop/reGTes/build/_deps/googletest-src/googletest/src/gtest_main.cc
+    Note: Google Test filter = HelloTest.BasicAssertions
+    [==========] Running 1 test from 1 test suite.
+    [----------] Global test environment set-up.
+    [----------] 1 test from HelloTest
+    [ RUN      ] HelloTest.BasicAssertions
+    C:/Users/seigy/Desktop/reGTes/build/hello_test.cc:8: Failure
+    Expected equality of these values:
+    7 * 6
+        Which is: 42
+    43
+
+    [  FAILED  ] HelloTest.BasicAssertions (0 ms)
+    [----------] 1 test from HelloTest (0 ms total)
+
+    [----------] Global test environment tear-down
+    [==========] 1 test from 1 test suite ran. (0 ms total)
+    [  PASSED  ] 0 tests.
+    [  FAILED  ] 1 test, listed below:
+    [  FAILED  ] HelloTest.BasicAssertions
+
+    1 FAILED TEST
+
+
+    0% tests passed, 1 tests failed out of 1
+
+    Total Test time (real) =   0.02 sec
+
+    The following tests FAILED:
+            1 - HelloTest.BasicAssertions (Failed)
+    Errors while running CTest
+
+    C:\Users\seigy\Desktop\reGTes\build>
+
+
+## ファイル追加
+
+buildフォルダに以下追加
+
+- target.h
+- target.cc
+- target_test.cc
+
+それぞれの詳細は以下
+
+- target.h
+
+        #ifndef ADD_H_
+        #define ADD_H_
+
+        int add_method(int a, int b);
+
+        #endif /* ADD_H_*/
+
+- target.cc
+
+        #include "target.h"
+
+        int add_method(int a, int b){
+            return a + b;
+        }
+
+- target_test.cc
+
+        #include <gtest/gtest.h>
+        #include "target.h"
+
+        TEST(AddTest, PositiveNumbers) {
+            EXPECT_EQ(add_method(1, 2), 3);
+        }
+
+        TEST(AddTest, NegativeNumbers) {
+            EXPECT_EQ(add_method(-1, -2), -3);
+        }
+
+        TEST(AddTest, MixedNumbers) {
+            EXPECT_EQ(add_method(-1, 1), 0);
+        }
+
+CMakeLists.txt の内容を以下に更新する
+
+    enable_testing()
+
+    include(GoogleTest)
+
+    add_library(target STATIC target.cc)
+
+    add_executable(
+    hello_test
+    hello_test.cc
+    )
+
+    add_executable(
+    target_test
+    target_test.cc
+    )
+
+    target_link_libraries(
+    hello_test
+    GTest::gtest_main
+    )
+
+    target_link_libraries(
+    target_test
+    target
+    GTest::gtest_main
+    )
+
+    gtest_discover_tests(hello_test)
+    gtest_discover_tests(target_test)
